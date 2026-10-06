@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UHB PE Guideline</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .nhs-blue { background-color: #005EB8; }
+        .nhs-dark-blue { background-color: #003087; }
+        .nhs-light-blue { background-color: #41B6E6; }
+        .nhs-text { color: #231f20; }
+        .accent-text { color: #005EB8; }
+        .section-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+        }
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .calculator-input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            margin-top: 0.25rem;
+        }
+        .calculator-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+        }
+        .calculator-label input[type="checkbox"] {
+            margin-right: 0.75rem;
+            height: 1.25rem;
+            width: 1.25rem;
+            accent-color: #005EB8;
+        }
+        .score-display {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #003087;
+        }
+        /* Flowchart Styles */
+        .flowchart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.875rem;
+            text-align: center;
+        }
+        .flowchart-box {
+            padding: 0.75rem;
+            border: 2px solid;
+            border-radius: 0.5rem;
+            width: 90%;
+            max-width: 300px;
+            background-color: #f0f4f5;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .flowchart-start { border-color: #005EB8; background-color: #e6f0fa; }
+        .flowchart-process { border-color: #78be20; }
+        .flowchart-decision { border-color: #f9a825; background-color: #fffbeb; transform: skew(-10deg); }
+        .flowchart-decision .content { transform: skew(10deg); }
+        .flowchart-end { border-color: #d5281b; background-color: #fae9e8;}
+        .flowchart-io { border-color: #41B6E6; background-color: #e7f7fd; }
+        .flowchart-arrow {
+            width: 2px;
+            background-color: #768692;
+            height: 2rem;
+            position: relative;
+        }
+        .flowchart-arrow::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 8px solid #768692;
+        }
+        .flowchart-split {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            gap: 1rem;
+        }
+        .flowchart-branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+        .flowchart-label {
+            font-weight: 600;
+            color: #003087;
+            padding: 0 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 nhs-text">
+
+    <!-- Header -->
+    <header class="nhs-blue text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">University Hospitals Birmingham</h1>
+                <p class="text-lg">Pulmonary Embolism (PE) Guideline</p>
+            </div>
+            <div class="text-right">
+                <p class="text-sm">Based on CG062 v5.0</p>
+                <p class="text-sm">Review Date: Oct 2027</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nhs-dark-blue text-white py-2 sticky-nav shadow-lg">
+        <div class="container mx-auto flex justify-center flex-wrap">
+            <a href="#diagnosis" class="px-3 py-2 hover:bg-nhs-light-blue rounded-md">Diagnosis</a>
+            <a href="#wells" class="px-3 py-2 hover:bg-nhs-light-blue rounded-md">Wells Score</a>
+            <a href="#management" class="px-3 py-2 hover:bg-nhs-light-blue rounded-md">Management</a>
+            <a href="#thrombolysis" class="px-3 py-2 hover:bg-nhs-light-blue rounded-md">Thrombolysis</a>
+            <a href="#low-risk" class="px-3 py-2 hover:bg-nhs-light-blue rounded-md">Low-Risk PE</a>
+            <a href="#anticoagulation" class="px-3 py-2 hover:bg-nhs-light-blue rounded-md">Anticoagulation</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 md:p-6">
+
+        <!-- Diagnosis Section -->
+        <section id="diagnosis" class="section-card">
+            <h2 class="text-2xl font-bold accent-text mb-4 border-b pb-2">Diagnosis of Suspected PE</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Symptoms & Signs</h3>
+                    <p class="mb-4">Symptoms and signs are non-specific. They can include breathlessness, chest pain, haemoptysis, and pre-syncope/syncope. Syncope is an important symptom as it may indicate RV dysfunction.</p>
+                    <h3 class="text-xl font-semibold mb-2">Initial Assessment</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>Assess medical history and perform physical examination.</li>
+                        <li>Check for haemodynamic instability.</li>
+                        <li>Perform ECG and CXR (can be normal or non-specific).</li>
+                        <li>Consider the <strong>PERC rule</strong> to rule out PE in low-risk patients.</li>
+                        <li>Use the <strong>2-level PE Wells score</strong> to estimate clinical probability.</li>
+                    </ul>
+                </div>
+                <div>
+                     <h3 class="text-xl font-semibold mb-2">Diagnostic Pathway (NICE NG158)</h3>
+                     <div class="flowchart-container p-4 border border-gray-200 rounded-lg bg-white">
+                        <div class="flowchart-box flowchart-start">PE Suspected</div>
+                        <div class="flowchart-arrow"></div>
+                        <div class="flowchart-box flowchart-decision"><div class="content">Determine 2-level PE Wells score</div></div>
+                        <div class="flowchart-split">
+                            <!-- Branch 1: PE Likely -->
+                            <div class="flowchart-branch">
+                                <div class="flowchart-label">Wells score > 4 (PE Likely)</div>
+                                <div class="flowchart-arrow"></div>
+                                <div class="flowchart-box flowchart-io">Immediate CTPA (or interim anticoagulation)</div>
+                                <div class="flowchart-arrow"></div>
+                                <div class="flowchart-box flowchart-decision"><div class="content">CTPA Result?</div></div>
+                                <div class="flowchart-split">
+                                    <div class="flowchart-branch">
+                                        <div class="flowchart-label">Positive</div>
+                                        <div class="flowchart-arrow"></div>
+                                        <div class="flowchart-box flowchart-end">Diagnose PE & Treat</div>
+                                    </div>
+                                    <div class="flowchart-branch">
+                                        <div class="flowchart-label">Negative</div>
+                                        <div class="flowchart-arrow"></div>
+                                        <div class="flowchart-box flowchart-process">Consider proximal leg vein US if DVT suspected</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Branch 2: PE Unlikely -->
+                            <div class="flowchart-branch">
+                                <div class="flowchart-label">Wells score ≤ 4 (PE Unlikely)</div>
+                                <div class="flowchart-arrow"></div>
+                                <div class="flowchart-box flowchart-io">Quantitative D-dimer test</div>
+                                <div class="flowchart-arrow"></div>
+                                <div class="flowchart-box flowchart-decision"><div class="content">D-dimer Result?</div></div>
+                                <div class="flowchart-split">
+                                    <div class="flowchart-branch">
+                                        <div class="flowchart-label">Positive</div>
+                                        <div class="flowchart-arrow" style="height: 4rem;"></div>
+                                        <div class="text-gray-500 italic text-xs">Proceed to CTPA</div>
+                                    </div>
+                                    <div class="flowchart-branch">
+                                        <div class="flowchart-label">Negative</div>
+                                        <div class="flowchart-arrow"></div>
+                                        <div class="flowchart-box flowchart-end">Stop interim anticoagulation. Think about other diagnoses.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Wells Score Calculator -->
+        <section id="wells" class="section-card">
+            <h2 class="text-2xl font-bold accent-text mb-4 border-b pb-2">2-Level PE Wells Score Calculator</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div id="wells-form">
+                    <label class="calculator-label"><input type="checkbox" data-score="3"> Clinical signs and symptoms of DVT</label>
+                    <label class="calculator-label"><input type="checkbox" data-score="3"> An alternative diagnosis is less likely than PE</label>
+                    <label class="calculator-label"><input type="checkbox" data-score="1.5"> Heart rate > 100 bpm</label>
+                    <label class="calculator-label"><input type="checkbox" data-score="1.5"> Immobilisation for >3 days or surgery in previous 4 weeks</label>
+                    <label class="calculator-label"><input type="checkbox" data-score="1.5"> Previous DVT/PE</label>
+                    <label class="calculator-label"><input type="checkbox" data-score="1"> Haemoptysis</label>
+                    <label class="calculator-label"><input type="checkbox" data-score="1"> Malignancy (on treatment, treated in last 6 months, or palliative)</label>
+                </div>
+                <div class="text-center bg-gray-100 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-2">Total Score</h3>
+                    <p id="wells-score" class="score-display">0</p>
+                    <p id="wells-result" class="text-lg font-medium mt-2">-</p>
+                    <button id="reset-wells" class="mt-4 bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded">Reset</button>
+                </div>
+            </div>
+             <div class="mt-4 p-4 bg-blue-50 border-l-4 border-nhs-blue rounded-r-lg">
+                <p><strong>Interpretation:</strong></p>
+                <ul class="list-disc list-inside ml-4">
+                    <li><strong>Score > 4:</strong> PE Likely. Proceed to immediate CTPA.</li>
+                    <li><strong>Score ≤ 4:</strong> PE Unlikely. Perform a D-dimer test.</li>
+                </ul>
+                <p class="mt-2 text-sm"><strong>Note on D-dimer:</strong> Consider age-adjusted threshold for people over 50 (Age x 10 ng/mL for D-dimer assays with a 500 ng/mL cutoff).</p>
+            </div>
+        </section>
+
+        <!-- Management of High-Risk PE -->
+        <section id="management" class="section-card">
+            <h2 class="text-2xl font-bold accent-text mb-4 border-b pb-2">Management of High-Risk (Haemodynamically Unstable) PE</h2>
+             <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Defining Haemodynamic Instability</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Cardiac Arrest:</strong> Need for CPR.</li>
+                        <li><strong>Obstructive Shock:</strong> SBP &lt;90 mmHg (or vasopressors needed) despite adequate filling, with end-organ hypoperfusion.</li>
+                        <li><strong>Persistent Hypotension:</strong> SBP &lt;90 mmHg or SBP drop ≥40 mmHg for >15 mins, not caused by arrhythmia, hypovolaemia, or sepsis.</li>
+                    </ul>
+                     <p class="mt-4 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg"><strong>Critically unwell patients:</strong> Document escalation plans and RESPECT forms. Senior input is mandatory.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">High-Risk PE Pathway (UHB Guideline)</h3>
+                     <div class="flowchart-container p-4 border border-gray-200 rounded-lg bg-white">
+                        <div class="flowchart-box flowchart-start">Suspected PE with Haemodynamic Instability</div>
+                        <div class="flowchart-arrow"></div>
+                        <div class="flowchart-box flowchart-process">Senior input & Resuscitation</div>
+                        <div class="flowchart-arrow"></div>
+                        <div class="flowchart-box flowchart-process">IV Unfractionated Heparin Bolus</div>
+                        <div class="flowchart-arrow"></div>
+                        <div class="flowchart-box flowchart-io">Urgent CTPA / Bedside Echo</div>
+                        <div class="flowchart-arrow"></div>
+                        <div class="flowchart-box flowchart-process">PE Confirmed</div>
+                        <div class="flowchart-arrow"></div>
+                        <div class="flowchart-box flowchart-decision"><div class="content">Absolute contraindications to systemic thrombolysis?</div></div>
+                        <div class="flowchart-split">
+                            <div class="flowchart-branch">
+                                <div class="flowchart-label">No</div>
+                                <div class="flowchart-arrow"></div>
+                                <div class="flowchart-box flowchart-process">Systemic Thrombolysis</div>
+                                <div class="flowchart-arrow"></div>
+                                <div class="flowchart-box flowchart-process">Post-thrombolysis monitoring</div>
+                                <div class="flowchart-arrow"></div>
+                                <div class="flowchart-box flowchart-end">Continue anticoagulation & supportive care</div>
+                            </div>
+                            <div class="flowchart-branch">
+                                <div class="flowchart-label">Yes</div>
+                                <div class="flowchart-arrow"></div>
+                                <div class="flowchart-box flowchart-end">Consider alternative reperfusion strategies (Consultant to IR discussion)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Thrombolysis Section -->
+        <section id="thrombolysis" class="section-card">
+            <h2 class="text-2xl font-bold accent-text mb-4 border-b pb-2">Systemic Thrombolysis</h2>
+            <p class="mb-4">Indicated for patients with confirmed high-risk PE (with haemodynamic instability). <strong>Do not use in haemodynamically stable patients.</strong></p>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-gray-200">
+                        <tr>
+                            <th class="p-3 font-bold uppercase text-gray-600 border border-gray-300">Thrombolytic Agent</th>
+                            <th class="p-3 font-bold uppercase text-gray-600 border border-gray-300">Regime</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="hover:bg-gray-100">
+                            <td class="p-3 border border-gray-300 font-semibold">Alteplase</td>
+                            <td class="p-3 border border-gray-300"><strong>10mg</strong> IV over 2 minutes, followed by <strong>90mg</strong> IV over 2 hours. <br><span class="text-sm">(Total dose not to exceed 1.5mg/kg in patients &lt;65kg).</span><br><span class="text-sm font-semibold">In cardiac arrest: 50mg IV bolus STAT.</span></td>
+                        </tr>
+                        <tr class="hover:bg-gray-100">
+                            <td class="p-3 border border-gray-300 font-semibold">Streptokinase (accelerated)</td>
+                            <td class="p-3 border border-gray-300"><strong>1.5 million Units</strong> over 2 hours.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded-r-lg">
+                <h4 class="font-bold">Contraindications</h4>
+                <p><strong>Absolute:</strong> Haemorrhagic stroke history, ischaemic stroke in last 6 months, CNS neoplasm, major trauma/surgery/head injury in last 3 weeks, active bleeding.</p>
+                <p><strong>Relative:</strong> TIA in last 6 months, oral anticoagulant use, pregnancy, refractory hypertension (>180 mmHg systolic), active peptic ulcer. Weigh risk vs benefit.</p>
+            </div>
+        </section>
+
+        <!-- Low-Risk PE Section -->
+        <section id="low-risk" class="section-card">
+            <h2 class="text-2xl font-bold accent-text mb-4 border-b pb-2">Outpatient Management for Low-Risk PE</h2>
+            <p class="mb-4">Low-risk patients (sPESI = 0) may be suitable for outpatient management. A careful risk assessment is required.</p>
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- sPESI Calculator -->
+                 <div class="bg-gray-100 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-4">Simplified PESI (sPESI) Score</h3>
+                    <div id="spesi-form">
+                        <label class="calculator-label"><input type="checkbox" data-score="1"> Age > 80 years</label>
+                        <label class="calculator-label"><input type="checkbox" data-score="1"> History of cancer</label>
+                        <label class="calculator-label"><input type="checkbox" data-score="1"> History of chronic cardiopulmonary disease</label>
+                        <label class="calculator-label"><input type="checkbox" data-score="1"> Pulse ≥ 110 bpm</label>
+                        <label class="calculator-label"><input type="checkbox" data-score="1"> Systolic BP &lt; 100 mmHg</label>
+                        <label class="calculator-label"><input type="checkbox" data-score="1"> Arterial oxygen saturation &lt; 90%</label>
+                    </div>
+                    <div class="text-center mt-4">
+                        <h3 class="text-xl font-semibold mb-2">sPESI Score</h3>
+                        <p id="spesi-score" class="score-display">0</p>
+                        <p id="spesi-result" class="text-lg font-medium mt-2">-</p>
+                        <button id="reset-spesi" class="mt-4 bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded">Reset</button>
+                    </div>
+                     <div class="mt-4 p-4 bg-blue-50 border-l-4 border-nhs-blue rounded-r-lg">
+                        <p><strong>Interpretation:</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li><strong>Score = 0:</strong> Low Risk. Consider for outpatient management if no exclusion criteria are met.</li>
+                            <li><strong>Score ≥ 1:</strong> High Risk. Not suitable for outpatient management.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Exclusion Criteria for Outpatient Management</h3>
+                    <ul class="list-disc list-inside space-y-1 text-sm bg-red-50 p-4 rounded-lg border border-red-200">
+                        <li>Haemodynamic instability or syncope/pre-syncope.</li>
+                        <li>Evidence of RV dysfunction (ECG, CT, Echo, biomarkers).</li>
+                        <li>Oxygen saturations &lt;94% or oxygen requirement.</li>
+                        <li>Active bleeding or high risk of major bleeding.</li>
+                        <li>PE occurred while on full-dose anticoagulation.</li>
+                        <li>Severe pain requiring opiates.</li>
+                        <li>Other medical comorbidities requiring admission.</li>
+                        <li>Severe renal disease (CrCl &lt; 15ml/min) or severe liver disease.</li>
+                        <li>Social reasons (inability to return home, compliance concerns, frailty).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Anticoagulation Section -->
+        <section id="anticoagulation" class="section-card">
+             <h2 class="text-2xl font-bold accent-text mb-4 border-b pb-2">Initial Anticoagulation</h2>
+             <p class="mb-4">Start anticoagulation immediately in suspected PE if imaging is delayed. Choose an agent that can be continued if PE is confirmed. The choice depends on comorbidities and patient factors.</p>
+             <div class="overflow-x-auto">
+                 <table class="w-full text-left border-collapse">
+                     <thead class="bg-gray-200">
+                         <tr>
+                             <th class="p-3 font-bold uppercase text-gray-600 border border-gray-300">Patient Group</th>
+                             <th class="p-3 font-bold uppercase text-gray-600 border border-gray-300">Recommended Anticoagulation</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         <tr class="hover:bg-gray-100">
+                             <td class="p-3 border border-gray-300 font-semibold">Standard Patient (No major comorbidities)</td>
+                             <td class="p-3 border border-gray-300"><strong>Apixaban</strong> or <strong>Rivaroxaban</strong>. <br><span class="text-sm">Apixaban: 10mg BD for 7 days, then 5mg BD.</span></td>
+                         </tr>
+                         <tr class="hover:bg-gray-100">
+                             <td class="p-3 border border-gray-300 font-semibold">If DOAC unsuitable</td>
+                             <td class="p-3 border border-gray-300">LMWH for at least 5 days then Dabigatran or Edoxaban. Or LMWH/UFH with a VKA (Warfarin).</td>
+                         </tr>
+                         <tr class="hover:bg-gray-100">
+                            <td class="p-3 border border-gray-300 font-semibold">Renal Impairment (CrCl 15-50 ml/min)</td>
+                            <td class="p-3 border border-gray-300">Apixaban, Rivaroxaban, or LMWH followed by Edoxaban. VKA is also an option.</td>
+                         </tr>
+                         <tr class="hover:bg-gray-100">
+                             <td class="p-3 border border-gray-300 font-semibold">Active Cancer</td>
+                             <td class="p-3 border border-gray-300">Consider a DOAC (check for drug interactions). LMWH is a common alternative.</td>
+                         </tr>
+                         <tr class="hover:bg-gray-100">
+                            <td class="p-3 border border-gray-300 font-semibold">High-Risk PE (Haemodynamically unstable)</td>
+                            <td class="p-3 border border-gray-300">IV Unfractionated Heparin (UFH) infusion.</td>
+                         </tr>
+                     </tbody>
+                 </table>
+             </div>
+             <p class="mt-4 text-sm p-4 bg-blue-50 border-l-4 border-nhs-blue rounded-r-lg"><strong>Duration:</strong> Offer anticoagulation for at least 3 months. After this period, assess the risks and benefits of continuing treatment in the thrombosis clinic.</p>
+        </section>
+
+    </main>
+
+    <footer class="text-center p-4 bg-gray-200 text-gray-600 text-sm">
+        <p>This is a summary tool based on the UHB PE Guideline (CG062 v5.0). It is not a substitute for the full guideline or clinical judgment.</p>
+        <p>&copy; 2024 - For educational and clinical reference purposes.</p>
+    </footer>
+
+    <script>
+        // --- Calculator Logic ---
+        function setupCalculator(formId, scoreId, resultId, resetId, scoreMap) {
+            const form = document.getElementById(formId);
+            const scoreEl = document.getElementById(scoreId);
+            const resultEl = document.getElementById(resultId);
+            const resetBtn = document.getElementById(resetId);
+            const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+
+            function calculateScore() {
+                let totalScore = 0;
+                checkboxes.forEach(box => {
+                    if (box.checked) {
+                        totalScore += parseFloat(box.dataset.score);
+                    }
+                });
+                scoreEl.textContent = totalScore;
+                updateResult(totalScore);
+            }
+
+            function updateResult(score) {
+                if (resultEl) {
+                    resultEl.textContent = scoreMap(score).text;
+                    resultEl.className = 'text-lg font-medium mt-2 ' + scoreMap(score).className;
+                }
+            }
+            
+            function resetCalculator() {
+                checkboxes.forEach(box => box.checked = false);
+                calculateScore();
+            }
+
+            checkboxes.forEach(box => {
+                box.addEventListener('change', calculateScore);
+            });
+            
+            resetBtn.addEventListener('click', resetCalculator);
+
+            calculateScore(); // Initial calculation
+        }
+
+        // --- Wells Score Setup ---
+        setupCalculator('wells-form', 'wells-score', 'wells-result', 'reset-wells', (score) => {
+            if (score > 4) {
+                return { text: 'PE Likely', className: 'text-red-600' };
+            }
+            return { text: 'PE Unlikely', className: 'text-green-600' };
+        });
+
+        // --- sPESI Score Setup ---
+        setupCalculator('spesi-form', 'spesi-score', 'spesi-result', 'reset-spesi', (score) => {
+            if (score >= 1) {
+                return { text: 'High Risk', className: 'text-red-600' };
+            }
+            return { text: 'Low Risk', className: 'text-green-600' };
+        });
+        
+        // --- Smooth Scrolling for Nav Links ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
