@@ -111,18 +111,33 @@
             color: #003087;
             padding: 0 0.5rem;
         }
+        /* Phone layout: stop the grid and flowchart pushing the page wider than the screen */
+        .grid > * { min-width: 0; }
+        @media (max-width: 640px) {
+            .flowchart-split { flex-direction: column; align-items: center; }
+            .flowchart-branch { width: 100%; }
+            .flowchart-branch { border: 1px solid #d1d5db; border-radius: 0.5rem; padding: 0.75rem 0.5rem; background-color: #fafafa; }
+        }
     </style>
     <link rel="stylesheet" href="tailwind.bundle.css">
+    <!-- Install as an app (PWA) -->
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#005eb8">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-title" content="PE Guideline">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 </head>
 <body class="bg-gray-50 nhs-text">
 
     <!-- Header -->
     <header class="nhs-blue text-white p-4 shadow-md">
         <div class="container mx-auto flex justify-between items-center">
-            <div>
+            <div style="display:flex;align-items:center;gap:12px"><img src="https://raw.githubusercontent.com/shakeymedic/wmem/main/emevidence_logo.png" alt="EM Evidence logo" width="48" height="48" style="height:48px;width:48px;flex-shrink:0;object-fit:contain" onerror="this.style.display='none'"><div>
                 <h1 class="text-2xl font-bold">University Hospitals Birmingham</h1>
                 <p class="text-lg">Pulmonary Embolism (PE) Guideline</p>
-            </div>
+            </div></div>
             <div class="text-right">
                 <p class="text-sm">Based on CG062 v5.0</p>
                 <p class="text-sm">Review Date: Oct 2027</p>
@@ -483,5 +498,6 @@
             });
         });
     </script>
+    <script src="sw-register.js"></script>
 </body>
 </html>
